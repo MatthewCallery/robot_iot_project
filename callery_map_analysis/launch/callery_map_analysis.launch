@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="map_file_path" default="/home/mc16766/logs/map_merger/robot_0/local.pgm"/>
+
+  <node pkg="callery_map_analysis" type="callery_map_analysis.py" name="callery_map_analysis">
+    <param name="map_file_path" value="$(arg map_file_path)"/>
+  </node>
+
+</launch>

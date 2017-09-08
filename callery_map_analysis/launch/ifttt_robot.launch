@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="log_path" default="$(env HOME)/logs"/>
+  <arg name="robot_name" default="robot_0"/>
+  <arg name="use_sim_time" default="true"/>
+  <!-- 0 = uncoordinated exploration, 1 = coordinated exploration (multi-robot) -->
+  <arg name="frontier_selection" default="0"/>
+  <!-- TIAGo -->
+  <arg name="robot" default="steel"/>
+  <arg name="global_planner" default="navfn"/>
+  <arg name="local_planner" default="eband"/>
+  <arg name="mapping" default="gmapping"/>
+  <arg name="public_sim" default="True"/>
+  <!-- set which simulated environment is used (.world file) -->
+  <arg name="world" default="small_office"/>
+  <arg name="gzpose" default="-x 0.0 -y 0.0 -z 0.0 -R 0.0 -P 0.0 -Y 0.0"/>
+
+  <!-- map_merger -->
+  <include file="$(find map_merger)/launch/tiago_map_merger.launch">
+    <arg name="log_path" value="$(arg log_path)"/>
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+  </include>
+
+  <!-- explorer -->
+  <include file="$(find explorer)/launch/tiago_explorer.launch">
+    <arg name="log_path" value="$(arg log_path)"/>
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="frontier_selection" value="$(arg frontier_selection)"/>
+  </include>
+
+  <!-- tiago_mapping -->
+  <include file="$(find tiago_2dnav_gazebo)/launch/tiago_mapping.launch">
+    <arg name="robot" value="$(arg robot)"/>
+    <arg name="global_planner" value="$(arg global_planner)"/>
+    <arg name="local_planner" value="$(arg local_planner)"/>
+    <arg name="mapping" value="$(arg mapping)"/>
+    <arg name="world" value="$(arg world)"/>
+    <arg name="public_sim" value="$(arg public_sim)"/>
+    <arg name="gzpose" value="$(arg gzpose)"/>
+  </include>
+</launch>
